@@ -2,17 +2,19 @@ version: 2.1
 
 jobs:
   build:
-    docker:
-      - image: jeremysouche/node-js-sample:latest
+    machine:
+      image: ubuntu-2004:current
+      docker_layer_caching: true
+    resource_class: large
     steps:
-      - checkout
-
-      - run:
-          name: Waiting for the web server to be ready
-          command: dockerize -wait http://localhost:8080 -timeout 1m 
-
-      - run:
-          name: Validate service is working
+      - run: 
+          name: Pulling the Docker Image
+          command: docker pull jeremysouche/node-js-sample:latest
+      - run: 
+          name: Creating the container
+          command: docker run -d --name node-js-app jeremysouche/node-js-sample:latest
+      - run: 
+          name: Validate that service is working
           command: |
             if [ "$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8080)" != "200" ]; then
               echo "Application did not return HTTP 200 OK."
