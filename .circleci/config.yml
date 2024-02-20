@@ -21,7 +21,7 @@ jobs:
           command: |
             docker container run  \
             docker.io/jwilder/dockerize \
-            -wait http://localhost:8080/healthcheck \
+            -wait http://localhost:8080 \
             -wait-retry-interval 2s \
             -timeout 20s
 
