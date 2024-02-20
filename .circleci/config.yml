@@ -15,7 +15,7 @@ jobs:
           command: docker run -p 8080:8080 -d --name node-js-app jeremysouche/node-js-sample:latest
       - run:
           name: Validate that service is working
-          command: docker exec -it node-js-app curl -s -o /dev/null -w "%{http_code}" http://localhost:8080
+          command: docker exec -it node-js-app curl http://localhost:8080
       #- run: 
           #name: Validate that service is working
           #command: |
