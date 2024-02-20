@@ -25,7 +25,7 @@ jobs:
       - run:
           name: Publish Docker image
           command: |
-            echo "u@i4BK%smW93Xa6p" | docker login --username "jeremysouche" --password-stdin
+            echo "${DOCKER_HUB_PASSWORD}" | docker login --username "${DOCKER_HUB_LOGIN}" --password-stdin
             docker push "jeremysouche/node-js-sample" 
 
 workflows:
