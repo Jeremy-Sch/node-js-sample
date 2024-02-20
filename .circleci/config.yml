@@ -8,9 +8,6 @@ jobs:
     resource_class: large
     steps:
       - checkout
-      #- run:
-          #name: Pulling the Docker Image
-          #command: docker pull jeremysouche/node-js-sample:latest
       - run:
           name: Building Image
           command: docker build -t node-js-sample .
