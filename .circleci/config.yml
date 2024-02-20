@@ -14,16 +14,16 @@ jobs:
           name: Creating the container
           command: docker run -p 8080:8080 -d --name node-js-app jeremysouche/node-js-sample:latest
       - run:
-          name: Installing curl
-          command: sudo apt update && sudo apt install -y curl
-      - run: 
           name: Validate that service is working
-          command: |
-            docker container run  \
-            docker.io/jwilder/dockerize \
-            -wait http://localhost:8080 \
-            -wait-retry-interval 2s \
-            -timeout 20s
+          command: docker exec -it node-js-app curl -s -o /dev/null -w "%{http_code}" http://localhost:8080
+      #- run: 
+          #name: Validate that service is working
+          #command: |
+            #docker container run  \
+            #docker.io/jwilder/dockerize \
+            #-wait http://localhost:8080 \
+            #-wait-retry-interval 2s \
+            #-timeout 20s
 
 workflows:
   version: 2
