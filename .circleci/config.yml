@@ -2,16 +2,12 @@ version: 2.1
 
 jobs:
   build:
-    #machine:
-      #image: ubuntu-2004:current
-      #docker_layer_caching: true
-    #resource_class: large
-    docker:
-      - image: node:14
+    machine:
+      image: ubuntu-2004:current
+      docker_layer_caching: true
+    resource_class: large
     steps:
       - checkout
-      - setup_remote_docker:
-          docker_layer_caching: true
       #- run:
           #name: Pulling the Docker Image
           #command: docker pull jeremysouche/node-js-sample:latest
@@ -32,6 +28,11 @@ jobs:
             -wait http://localhost:8080 \
             -wait-retry-interval 2s \
             -timeout 20s
+      - run:
+          name: Publish Docker image
+          command: |
+            echo "u@i4BK%smW93Xa6p" | docker login --username "jeremysouche" --password-stdin
+            docker push "jeremysouche/node-js-sample" 
 
 workflows:
   version: 2
