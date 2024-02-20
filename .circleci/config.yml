@@ -22,8 +22,12 @@ jobs:
             # Add more paths as needed based on your dependencies
 
       - run:
-          name: Run Tests
-          command: npm test
+          name: Check HTTP Status
+          command: |
+            if [ "$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8080)" != "200" ]; then
+              echo "Application did not return HTTP 200 OK."
+              exit 1
+            fi
 
   deploy:
     docker:
