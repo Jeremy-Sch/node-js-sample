@@ -15,7 +15,7 @@ jobs:
           command: docker run -d --name node-js-app jeremysouche/node-js-sample:latest
       - run:
           name: Installing curl
-          command: apt update && apt install -y curl
+          command: sudo apt update && sudo apt install -y curl
       - run: 
           name: Validate that service is working
           command: |
