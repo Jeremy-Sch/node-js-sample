@@ -1,0 +1,40 @@
+version: 2.1
+
+jobs:
+  build:
+    docker:
+      - image: node:14
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            # Add more cache keys as needed based on your dependencies
+
+      - run:
+          name: Install Dependencies
+          command: npm install
+
+      - save_cache:
+          key: v1-dependencies-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+            # Add more paths as needed based on your dependencies
+
+      - run:
+          name: Run Tests
+          command: npm test
+
+  deploy:
+    docker:
+      - image: node-js-sample:latest
+    steps:
+      - checkout
+      # Add deployment steps as needed based on your deployment strategy
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build
+      # Add more jobs (e.g., deploy) as needed based on your workflow
