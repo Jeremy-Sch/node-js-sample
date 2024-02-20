@@ -8,14 +8,9 @@ jobs:
     resource_class: large
     steps:
       - checkout
-      - setup_remote_docker:
-          docker_layer_caching: true
       #- run:
           #name: Pulling the Docker Image
           #command: docker pull jeremysouche/node-js-sample:latest
-      - run:
-          name: Installing Docker
-          command: apt-get update && apt-get install -y docker.io && apt-get install -y curl
       - run:
           name: Building Image
           command: docker build -t node-js-sample .
