@@ -2,28 +2,36 @@ version: 2.1
 
 jobs:
   build:
-    machine:
-      image: ubuntu-2004:current
-      docker_layer_caching: true
-    resource_class: large
+    #machine:
+      #image: ubuntu-2004:current
+      #docker_layer_caching: true
+    #resource_class: large
+    docker:
+      - image: node:14
     steps:
-      - run: 
-          name: Pulling the Docker Image
-          command: docker pull jeremysouche/node-js-sample:latest
+      - checkout
+      - setup_remote_docker
+          docker_layer_caching: true
+      #- run:
+          #name: Pulling the Docker Image
+          #command: docker pull jeremysouche/node-js-sample:latest
+      - run:
+          name: Installing Docker
+          command: apt-get update && apt-get install -y docker.io && apt-get install -y curl
+      - run:
+          name: Building Image
+          command: docker build -t node-js-sample .
       - run: 
           name: Creating the container
           command: docker run -p 8080:8080 -d --name node-js-app jeremysouche/node-js-sample:latest
-      #- run:
-          #name: Validate that service is working
-          #command: docker exec -it node-js-app curl http://localhost:8080
       - run: 
           name: Validate that service is working
           command: |
             docker container run --network container:node-js-app \
             docker.io/jwilder/dockerize \
             -wait http://localhost:8080 \
-            -wait-retry-interval 5s \
-            -timeout 30s
+            -wait-retry-interval 2s \
+            -timeout 20s
 
 workflows:
   version: 2
